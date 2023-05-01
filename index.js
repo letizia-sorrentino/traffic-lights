@@ -12,10 +12,6 @@
 
 // Also make the lights go on and off on hover (of the light!!)
 
-// 2. (Extra credit): Have a go at making it so that only one light can be on at one time
-
-// 3. (wild&crazy credit) See if you can set up a timer of some sort to do that automatically (You'll have to add new start and stop buttons to the page)
-
 const { log } = console;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,20 +25,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const goButton = document.getElementById("go");
     const goLight = document.querySelector(".light.go");
 
-    const turnOffButton = () => {
+    const timerButton = document.getElementById("timer");
+    const resetButton = document.getElementById("reset");
 
+    // 2. (Extra credit): Have a go at making it so that only one light can be on at one time
+    const turnOffButton = () => {
         stopLight.classList.remove("on");
-    
         cautionLight.classList.remove("on");
-    
         goLight.classList.remove("on");
-    
     };
 
+    // 3. (wild&crazy credit) See if you can set up a timer of some sort to do that automatically (You'll have to add new start and stop buttons to the page)
+
+    const startTrafficSignal = () => {
+
+        setTimeout(function () {
+            stopLight.classList.add("on");
+        }, 1000);
+
+        setTimeout(function () {
+            cautionLight.classList.add("on");
+        }, 3000);
+
+        setTimeout(function () {
+            goLight.classList.add("on");
+        }, 5000);
+
+        setTimeout(function() {
+            stopLight.classList.remove("on");
+            cautionLight.classList.remove("on");
+            goLight.classList.remove("on");
+        }, 6000);
+    }
+
+    const timer = setInterval(function () {
+        startTrafficSignal();
+    }, 6000);
+
+    clearInterval(timer);
 
 
-
-
+    //User interactions
     stopButton.addEventListener("click", (e) => {
         log("evt ibj", e);
         turnOffButton();
@@ -90,11 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
         log("evt hoverOff", e);
         goLight.classList.remove("on");
     });
-   
 
+    timerButton.addEventListener("click", (e) => {
+        log("evt ibj", e);
+        startTrafficSignal();
+    })
 
-
-
-
+    resetButton.addEventListener("click", (e) => {
+        log("evt ibj", e);
+        turnOffButton();
+    })
 
 });
